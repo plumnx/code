@@ -1,0 +1,78 @@
+logging.level.root: INFO
+server.port: 8899
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;LOCK_TIMEOUT=10000;MODE=ORACLE
+    username: ZW_CODE
+    password: ZW_CODE
+    driver-class-name: org.h2.Driver
+#    primary:
+#      min-idle: 20
+#      max-wait: 600000
+#      max-active: 20
+#      initial-size: 20
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: NON_NULL
+  redis:
+    host: 127.0.0.1
+#    jedis:
+#      pool:
+#        max-active: 200
+#        max-idle: 200
+#        min-idle: 100
+
+server.tomcat.max-threads: 0
+
+# redisson lock
+redisson:
+  address: redis://127.0.0.1:6379
+  timeout: 100000000
+
+# code config
+code:
+  config:
+    lock:
+      time: 300000000
+    batchThreadPool:
+      threadNamePrefix: code
+      corePoolSize: 50
+      maxPoolSize: 100
+      queueCapacity: 100
+      keepAliveSeconds: 0
+      partitionNum: 100
+      awaitTimeout: 300
+      rejectedExecutionHandler: CallerRunsPolicy
+    threadPool:
+      threadNamePrefix: code
+      corePoolSize: 100
+      maxPoolSize: 100
+      queueCapacity: 100
+      keepAliveSeconds: 500000000
+      rejectedExecutionHandler: CallerRunsPolicy
+    serial:
+      policy:
+        increateLimitNum: 1000
+        marginNum: 800
+        # strategy:
+        #     DB，生成编码及相关查询均使用数据库，redis分布式锁解决同步块问题
+        #     DB_CACHE，生成编码使用数据库，过程中使用的查询及维护通过cache解决，redis分布式锁解决同步块问题
+        #     CACHE，生成编码和过程中使用的查询及维护api均通过cache解决，cache中的编码上限与数据库的当前编码通过线程池和分布式锁进行同步更新
+        strategy: CACHE
+#    cacheManager:
+#      defaultExpireTime: 3600000000
+
+# Security close
+bamboo.client.security:
+  resource-id: code-service
+eureka.client.enabled: false
+database.oauth2.enabled: false
+flyway.enabled: false
+identity.session:
+  redis.enabled: false
+  cookie-domain-name-pattern: ^.+?\.(\w+\.[a-z]+)$

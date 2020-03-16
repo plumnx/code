@@ -1,0 +1,80 @@
+# server config
+server:
+#  context-path: /code-service
+  port: 8899
+
+# spring config url:
+spring:
+  datasource:
+#    url: jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:xe
+#    username: ZW_CODE
+#    password: ZW_CODE
+#    driver-class-name: net.sf.log4jdbc.DriverSpy
+    url: jdbc:oracle:thin:@oracle:1521:xe
+    username: ZW_CODE
+    password: ZW_CODE
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    tomcat:
+      max-active: 200
+      max-idle: 200
+      max-wait: 200
+    dbcp2:
+      max-wait-millis: 10000
+      initial-size: 200
+      max-total: 500
+      min-idle: 200
+      login-timeout: 10000
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    port: 6379
+#    password:
+#    pool:
+#      max-active: 200
+#      max-idle: 200
+#      max-wait: 10000
+#      min-idle: 200
+  aop:
+    auto: true
+  application:
+    name: code
+  jackson:
+    default-property-inclusion: non_null
+    property-naming-strategy: SNAKE_CASE
+#  cloud:
+#     config:
+#       uri: ${configserver.url:http://localhost:8888}
+
+# redisson lock
+redisson:
+  address: redis://127.0.0.1:6379
+  password:
+  timeout: 10000
+  connectionPoolSize: 64
+  connectionMinimumIdleSize: 10
+  slaveConnectionPoolSize: 250
+  masterConnectionPoolSize: 1000
+
+# Java Log back
+#logging:
+#  file: D:\zhongwang\springboot.log
+#  level: debug
+
+# code config
+code:
+  config:
+    lock:
+      time: 30000
+
+bamboo.client.security:
+  resource-id: code-service
+  datasource:
+    url: jdbc:oracle:thin:@127.0.0.1:1521/xe
+    username: ZW_IDENTITY
+    password: ZW_IDENTITY
+    driver-class-name: oracle.jdbc.driver.OracleDriver

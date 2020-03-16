@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: code
+  cloud:
+    config:
+      uri: ${configserver.url:http://configuration:Hy73Nbdh08dkHvpW@localhost:8888}

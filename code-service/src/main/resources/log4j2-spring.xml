@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status=debug 可以查看log4j的装配过程 -->
+
+<!--1、根节点Configuration：有两个属性status和monitorinterval
+status：用来指定log4j本身的打印日志级别
+monitorinterval：指定log4j自动重新配置的监测间隔时间-->
+
+<Configuration status="INFO">
+    <properties>
+        <!--变量定义 -->
+        <property name="log_pattern">%-d{yyyy-MM-dd HH:mm:ss.SSS} [%t:%tid:%r] [%F:%L] - [%p] %m%n</property>
+
+        <Property name="baseDir">/home/zhongwang/log/</Property>
+        <property name="web_app_name">code</property>
+        <property name="file_name">${web_app_name}.info.log</property>
+        <property name="rolling_file_name">wdmsg-%d{yyyy-MM-dd-HH}.log.%i</property>
+        <property name="every_file_size">10M</property>
+    </properties>
+
+    <!--2、Appenders节点：有三个子节点，Console、RollingFile、File
+    Console：定义输出到控制台的Appender
+    RollingFile：用来定义超过指定大小自动删除旧的创建新的的Appender
+    File：输出到指定位置的文件的Appender-->
+
+    <Appenders>
+        <!--输出控制台的配置 -->
+        <Console name="console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+            <!--<ThresholdFilter level="INFO" onMatch="ACCEPT" />-->
+            <!--输出日志的格式 -->
+            <PatternLayout pattern="${log_pattern}" />
+        </Console>
+        <!--<RollingFile name="infoFile" fileName="${baseDir}${file_name}" filePattern="${baseDir}${rolling_file_name}">
+            <PatternLayout pattern="${log_pattern}" />
+            <SizeBasedTriggeringPolicy size="${every_file_size}" />
+        </RollingFile>-->
+    </Appenders>
+    
+
+    <!--3、Loggers节点：常用的两个子节点，Root、Logger-->
+    <!--Root：用来指定项目的根日志，如果没有单独指定Logger，那么就会默认使用该Root日志输出-->
+
+    <Loggers>
+        <!--建立一个默认的root的logger，需要在root的level中指定输出的级别， -->
+        <Root level="INFO">
+            <appender-ref ref="console" />
+            <appender-ref ref="infoFile" />
+        </Root>
+        <logger name="org.flywaydb" level="DEBUG"/>
+        <logger name="org.flywaydb.core.internal.dbsupport.SqlScript" level="DEBUG"/>
+        <logger name="org.hibernate.SQL" additivity="true" level="DEBUG"/>
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" additivity="true" level="TRACE"/>
+        <logger name="com.zhongwang.cloud.platform.service.code" additivity="true" level="DEBUG"/>
+        <!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制-->
+        <!-- sql 以及耗费的执行时间 -->
+        <!--<logger name="jdbc.sqltiming" additivity="false" level="INFO">
+            <appender-ref ref="console" />
+        </logger>-->
+        <!--<Logger name="com.zhongwang.cloud.platform.service.code" level="DEBUG">
+            <appender-ref ref="console" />
+        </Logger>-->
+        <!-- 执行之后的返回结果 -->
+        <!--<logger name="jdbc.resultsettable" additivity="false" level="OFF"/>-->
+        <!-- 只有sql -->
+        <!--<logger name="jdbc.sqlonly" additivity="false" level="OFF"/>-->
+        <!--记录除了 ResultSet 之外的所有 JDBC 调用信息，会产生大量的记录，有利于调试跟踪具体的 JDBC 问题-->
+        <!--<logger name="jdbc.audit" additivity="false" level="OFF"/>-->
+        <!--会产生更多的记录信息，因为记录了 ResultSet 的信息-->
+        <!--<logger name="jdbc.resultset" additivity="false" level="OFF"/>-->
+        <!-- 记录连接打开、关闭等信息，有利于调试数据库连接相关问题 -->
+        <!--<logger name="jdbc.connection" additivity="false" level="OFF"/>-->
+    </Loggers>
+</Configuration>
