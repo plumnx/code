@@ -14,7 +14,7 @@
         <redisson.version>3.5.0</redisson.version>
         <log4jdbc.version>1.2</log4jdbc.version>
         <springfox-swagger2.version>2.6.1</springfox-swagger2.version>
-        <h2.version>1.3.172</h2.version>
+        <h2.version>2.0.206</h2.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <dbunit.version>2.4.9</dbunit.version>
         <poi.version>3.9</poi.version>
